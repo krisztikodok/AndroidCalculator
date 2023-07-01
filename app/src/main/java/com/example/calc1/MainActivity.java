@@ -93,7 +93,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // clear last button input
 
             if (bt_text.equals("C")) {
-                toCalc = toCalc.substring(0, toCalc.length() - 1); //trim the last character
+                if(toCalc.length() > 0){
+                    toCalc = toCalc.substring(0, toCalc.length() - 1); //trim the last character
+                }
             }
 
 
@@ -101,9 +103,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //getting result
         solution_tv.setText(toCalc);
-
-
-
         String finalSum=sum(toCalc);
 
         if(!finalSum.equals("Hiba")){
@@ -117,10 +116,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Context xc=Context.enter();
             xc.setOptimizationLevel(-1);
             Scriptable sc = xc.initStandardObjects();
+
             String finalSum=xc.evaluateString(sc,input,"Javascript",1,null).toString();//calculate the string
             if(finalSum.endsWith(".0")){
                 finalSum=finalSum.replace(".0","");
             }
+
             return finalSum;
         }catch (Exception e){
             //result_tv.setText("Error");
