@@ -79,31 +79,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // AC clears textviews
         if(bt_text.equals("AC")){
             solution_tv.setText("");
-            result_tv.setText("");
+            result_tv.setText("0");
             return;
         }
 
         // =
         if(bt_text.equals("=")){
             //calculate result
-            solution_tv.setText((result_tv.getText()));
+            solution_tv.setText(result_tv.getText());
             return;
         }
 
         // clear last button input
-        else if(bt_text.equals("C")){
-            toCalc=toCalc.substring(0,toCalc.length()-1); //trim the last character
-            return;
-        }
+
+            if (bt_text.equals("C")) {
+                toCalc = toCalc.substring(0, toCalc.length() - 1); //trim the last character
+            }
+
+
         else{ toCalc=toCalc+bt_text;} //concatenate input
+
+        //getting result
         solution_tv.setText(toCalc);
+
+
+
         String finalSum=sum(toCalc);
 
-        if(!finalSum.equals("Error")){
-            if(bt_text.equals("=")){
-                result_tv.setText(finalSum);
+        if(!finalSum.equals("Hiba")){
+            result_tv.setText(finalSum);
             }
-        }
     }
 
     // calculate result
@@ -113,10 +118,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             xc.setOptimizationLevel(-1);
             Scriptable sc = xc.initStandardObjects();
             String finalSum=xc.evaluateString(sc,input,"Javascript",1,null).toString();//calculate the string
+            if(finalSum.endsWith(".0")){
+                finalSum=finalSum.replace(".0","");
+            }
             return finalSum;
         }catch (Exception e){
             //result_tv.setText("Error");
-            return  "Error";
+            return  "Hiba";
         }
     }
 }
